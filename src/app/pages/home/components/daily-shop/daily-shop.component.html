@@ -6,10 +6,11 @@
     <p-carousel
       [value]="shopItems"
       [numVisible]="5"
-      [numScroll]="10"
+      [numScroll]="5"
       [circular]="true"
       [responsiveOptions]="responsiveOptions"
       autoplayInterval="6000"
+      ngClass="width: 8px; height: 8px; margin: 0 4px"
     >
       <ng-template let-product pTemplate="item">
         <div class="border-1 surface-border border-round m-2 p-3">
