@@ -2,13 +2,14 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { CarouselModule } from 'primeng/carousel';
+import { SkeletonModule } from 'primeng/skeleton';
 import { ApiResponse, BrItem, ShopItem } from '../../../../models/shopItem';
 import { DailyShopService } from './daily-shop.service';
 
 @Component({
   selector: 'app-daily-shop',
   standalone: true,
-  imports: [CommonModule, CarouselModule, ButtonModule],
+  imports: [CommonModule, CarouselModule, ButtonModule, SkeletonModule],
   templateUrl: './daily-shop.component.html',
   styleUrl: './daily-shop.component.scss',
 })
@@ -18,6 +19,7 @@ export class DailyShopComponent implements OnInit {
   shopItems: ShopItem[] = [];
   public mappedShopItems: any[] = [];
   item: any;
+  isLoading = true;
 
   responsiveOptions: any[] | undefined;
 
@@ -25,6 +27,10 @@ export class DailyShopComponent implements OnInit {
 
   ngOnInit() {
     this.getShopItems();
+    setTimeout(() => {
+      this.getShopItems();
+      this.isLoading = false;
+    }, 2000);
 
     this.responsiveOptions = [
       {
