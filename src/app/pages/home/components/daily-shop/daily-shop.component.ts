@@ -81,8 +81,7 @@ export class DailyShopComponent implements OnInit {
             }),
           };
         });
-        console.log(this.shopItems);
-        console.log(this.brItems);
+
       },
       error: (error) => {
         console.error(error);

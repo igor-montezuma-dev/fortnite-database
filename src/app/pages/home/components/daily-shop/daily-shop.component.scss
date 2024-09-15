@@ -53,3 +53,20 @@
   border-radius: 10px;
   margin-bottom: 1rem;
 }
+
+.p-carousel-indicators .p-carousel-indicator {
+  width: 8px;
+  height: 8px;
+  margin: 0 4px;
+}
+
+:host ::ng-deep ul.p-carousel-indicators {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  height: auto;
+  margin-top: 1rem;
+  
+}
