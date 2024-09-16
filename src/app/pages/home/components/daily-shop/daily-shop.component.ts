@@ -117,7 +117,7 @@ export class DailyShopComponent implements OnInit {
       case 'uncommon':
         return 'success';
       case 'common':
-        return 'secondary';
+        return 'contrast';
       case 'epic':
         return 'warning';
       default:
