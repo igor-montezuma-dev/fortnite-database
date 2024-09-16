@@ -68,5 +68,10 @@
   gap: 5px;
   height: auto;
   margin-top: 1rem;
-  
+
 }
+
+:host ::ng-deep span.p-tag-value{
+  padding: 0.5rem;
+}
+

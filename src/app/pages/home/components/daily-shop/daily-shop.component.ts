@@ -3,21 +3,28 @@ import { Component, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { CarouselModule } from 'primeng/carousel';
 import { SkeletonModule } from 'primeng/skeleton';
+import { TagModule } from 'primeng/tag';
 import { ApiResponse, BrItem, ShopItem } from '../../../../models/shopItem';
 import { DailyShopService } from './daily-shop.service';
 
 @Component({
   selector: 'app-daily-shop',
   standalone: true,
-  imports: [CommonModule, CarouselModule, ButtonModule, SkeletonModule],
+  imports: [
+    CommonModule,
+    CarouselModule,
+    ButtonModule,
+    SkeletonModule,
+    TagModule,
+  ],
   templateUrl: './daily-shop.component.html',
-  styleUrl: './daily-shop.component.scss',
+  styleUrls: ['./daily-shop.component.scss'],
 })
 export class DailyShopComponent implements OnInit {
   products: any[] | undefined;
   brItems: any[] | undefined;
   shopItems: ShopItem[] = [];
-  public mappedShopItems: any[] = [];
+  severities: string[] = [];
   item: any;
   isLoading = true;
 
@@ -27,9 +34,15 @@ export class DailyShopComponent implements OnInit {
 
   ngOnInit() {
     this.getShopItems();
+
     setTimeout(() => {
-      this.getShopItems();
       this.isLoading = false;
+
+      this.shopItems.forEach((item) => {
+        const rarity = item?.brItems?.[0]?.rarity?.value || 'default';
+        const severity = this.getSeverity(rarity);
+        this.severities.push(severity);
+      });
     }, 2000);
 
     this.responsiveOptions = [
@@ -67,17 +80,12 @@ export class DailyShopComponent implements OnInit {
                 id: brItem.id,
                 name: brItem.name,
                 description: brItem.description,
-                type: {
-                  value: brItem.type.value,
-                  displayValue: brItem.type.displayValue,
-                  backendValue: brItem.type.backendValue,
-                },
                 rarity: {
                   value: brItem.rarity.value,
                   displayValue: brItem.rarity.displayValue,
                   backendValue: brItem.rarity.backendValue,
+                  severity: this.getSeverity(brItem.rarity.value),
                 },
-
                 images: {
                   smallIcon: brItem.images.smallIcon,
                   icon: brItem.images.icon,
@@ -88,6 +96,7 @@ export class DailyShopComponent implements OnInit {
           };
         });
 
+        console.log(this.shopItems);
       },
       error: (error) => {
         console.error(error);
@@ -95,16 +104,24 @@ export class DailyShopComponent implements OnInit {
     });
   }
 
-  public getSeverity(status: string) {
-    switch (status) {
+  getSeverity(
+    rarity: string
+  ): 'success' | 'secondary' | 'info' | 'warning' | 'danger' | 'contrast'  {
+    switch (rarity) {
       case 'rare':
-        return 'success';
-      case 'icon':
         return 'warning';
+      case 'icon':
+        return 'info';
       case 'marvel':
         return 'danger';
+      case 'uncommon':
+        return 'success';
+      case 'common':
+        return 'contrast';
+      case 'epic':
+        return 'warning';
       default:
-        return '';
+        return 'success';
     }
   }
 }
