@@ -30,6 +30,19 @@
                 "
                 class="w-full border-round"
               />
+
+              <p-tag
+                *ngIf="
+                  product?.brItems?.length > 0 &&
+                  product.brItems[0]?.rarity?.value
+                "
+                [value]="product.brItems[0]?.rarity?.value"
+                [severity]="
+                  getSeverity(product.brItems[0]?.rarity?.value || 'default')
+                "
+                class="absolute custom-tag"
+                [ngStyle]="{ 'left.px': 5, 'top.px': 5 }"
+              ></p-tag>
             </div>
           </div>
           <div class="mb-3 font-medium">
@@ -58,7 +71,6 @@
       </ng-template>
     </p-carousel>
 
-    
     <div *ngIf="isLoading">
       <div class="border-1 surface-border border-round m-2 p-3">
         <div class="mb-3">
